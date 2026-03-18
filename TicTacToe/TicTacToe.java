@@ -56,7 +56,7 @@ public class TicTacToe {
                 boardPanel.add(tile);
 
                 tile.setBackground(Color.darkGray);
-                tile.setForeground(Color.white);
+                tile.setForeground(Color.gray);
                 tile.setFont(new Font("Arial", Font.BOLD, 120));
                 tile.setFocusable(false);
                 
