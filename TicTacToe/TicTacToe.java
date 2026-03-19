@@ -1,10 +1,12 @@
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Random;
+
 import javax.swing.*;
 
 public class TicTacToe {
     int boardWidth = 600;
-    int boardHeight = 650; //50px for text panel on top
+    int boardHeight = 750; //50px for text panel on top
 
     JFrame frame = new JFrame("Tic-Tac-Toe");
     JLabel textLable = new JLabel();
@@ -16,7 +18,14 @@ public class TicTacToe {
     String playerO = "O";
     String currentPlayer = playerX;
 
+    JPanel restartPanel = new JPanel();
+    JButton restartButton = new JButton();
+
     boolean gameOver = false;
+
+    int playerWins = 0;
+    JLabel winsLabel = new JLabel();
+
 
     public static void main(String[] args) {
         
@@ -39,16 +48,39 @@ public class TicTacToe {
         textLable.setText("Tic-Tac-Toe");
         textLable.setOpaque(true);
 
-        textPanel.setLayout(new BorderLayout());
+        winsLabel.setBackground(Color.darkGray);
+        winsLabel.setForeground(Color.white);
+        winsLabel.setFont(new Font("Arial", Font.BOLD, 50));
+        winsLabel.setHorizontalAlignment(JLabel.CENTER);
+        winsLabel.setText("Player Wins: " + playerWins);
+        winsLabel.setOpaque(true);
+
+        textPanel.setLayout(new GridLayout(2, 1));
         textPanel.add(textLable);
+        textPanel.add(winsLabel);
         frame.add(textPanel, BorderLayout.NORTH);
 
-        //creating the board
+        //creating the board and restart button
+
         boardPanel.setLayout(new GridLayout(3, 3));
         boardPanel.setBackground(Color.darkGray);
         frame.add(boardPanel);
-        
 
+        restartButton.setText("Restart");
+        restartButton.setFont(new Font("Arial", Font.BOLD, 20));
+        restartButton.setFocusable(false);
+
+        restartButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                resetGame();
+            }
+        });
+
+        restartPanel.setLayout(new BorderLayout());
+        restartPanel.setBackground(Color.darkGray);
+        restartPanel.add(restartButton);
+        frame.add(restartPanel, BorderLayout.SOUTH);
+        
         for(int r = 0; r < 3; r++) {
             for(int c = 0; c < 3; c++) {
                 JButton tile = new JButton();
@@ -72,14 +104,26 @@ public class TicTacToe {
                             
                             tile.setText(currentPlayer);
                             checkWinner();
-                            if(!gameOver) {
-                                currentPlayer = currentPlayer == playerX ? playerO : playerX;
-                                textLable.setText(currentPlayer + "'s turn.");
-                            }
-                            
 
                         }
-                        
+
+                        if(true) {
+                            textLable.setText("Computers turn.");
+                            Random ran = new Random();
+                            while(true) {
+                                int randomRow = (int) ran.nextInt(3);
+                                int ranCol = (int) ran.nextInt(3);
+                                if(board[randomRow][ranCol].getText().equals("")) {
+                                    board[randomRow][ranCol].setText("O");
+                                    checkWinner();
+                                    break;
+                                    
+                                }
+                            }
+                            textLable.setText("X's Turn");
+                                
+                        }
+                            
                     }
                 });
             }
@@ -164,5 +208,18 @@ public class TicTacToe {
             }
         }
         return true;
+    }
+
+    public void resetGame() {
+        gameOver = false;
+        textLable.setText("X's Turn");
+        for(int i = 0; i < 3; i++) {
+            for(int j = 0; j < 3; j++) {
+                board[i][j].setText("");
+                board[i][j].setBackground(Color.darkGray);
+                board[i][j].setForeground(Color.gray);
+                currentPlayer = playerX;
+            }
+        }
     }
 }
