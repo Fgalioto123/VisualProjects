@@ -104,24 +104,27 @@ public class TicTacToe {
                             
                             tile.setText(currentPlayer);
                             checkWinner();
-
-                        }
-
-                        if(true) {
-                            textLable.setText("Computers turn.");
-                            Random ran = new Random();
-                            while(true) {
+                            if(!gameOver) {
+                                textLable.setText("Computers turn.");
+                                Random ran = new Random();
+                                int numOfLoops = 0;
+                                while(numOfLoops < 10) {
+                                numOfLoops++;
                                 int randomRow = (int) ran.nextInt(3);
                                 int ranCol = (int) ran.nextInt(3);
                                 if(board[randomRow][ranCol].getText().equals("")) {
                                     board[randomRow][ranCol].setText("O");
+                                    textLable.setText("X's Turn");
                                     checkWinner();
                                     break;
                                     
                                 }
                             }
-                            textLable.setText("X's Turn");
-                                
+                            }
+
+                            
+                            
+
                         }
                             
                     }
@@ -142,6 +145,10 @@ public class TicTacToe {
                 }
                 gameOver = true;
                 textLable.setText(board[r][1].getText() + " Has Won!!");
+                if(board[r][1].getText().equals("X")) {
+                    playerWins++;
+                    winsLabel.setText("Player Wins: " + playerWins);
+                }
                 return;
             }
         }
@@ -155,6 +162,10 @@ public class TicTacToe {
                     setWinner(board[i][c]);
                 }
                 textLable.setText(board[1][c].getText() + " Has Won!!");
+                if(board[1][c].getText().equals("X")) {
+                    playerWins++;
+                    winsLabel.setText("Player Wins: " + playerWins);
+                }
                 return;
             }
         }
@@ -165,6 +176,10 @@ public class TicTacToe {
                     setWinner(board[i][i]);
                 }
             textLable.setText(board[0][0].getText() + " Has Won!!");
+            if(board[0][0].getText().equals("X")) {
+                    playerWins++;
+                    winsLabel.setText("Player Wins: " + playerWins);
+                }
             return;
         }
 
@@ -174,6 +189,11 @@ public class TicTacToe {
                     setWinner(board[i][2 - i]);
                 }
             textLable.setText(board[1][1].getText() + " Has Won!!");
+            if(board[1][1].getText().equals("X")) {
+                    playerWins++;
+                    
+                    winsLabel.setText("Player Wins: " + playerWins);
+                }
             return;
         }
 
