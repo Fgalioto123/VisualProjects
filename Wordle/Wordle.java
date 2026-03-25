@@ -1,9 +1,10 @@
 //Todo: 
-//they can hit enter if there are 5 letters and it is a word in the row. it will then display the colors.
-//it will then take them to the next line until they either win or lose 
+//display the colors gray, yellow, green
+//stop them from typing once they got the answer
+//more random issues that will probably pop up out of thing air
 //extra: add a win/lose screen
-//add a start screen
-//add a on screen keyboard
+
+
 
 
 import java.awt.*;
