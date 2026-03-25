@@ -1,4 +1,4 @@
-//Todo: need to add the tiles to the grid (and need to figure out if they should be buttons or something else) and then let the player type and erase on those tiles 
+//Todo: 
 //they can hit enter if there are 5 letters and it is a word in the row. it will then display the colors.
 //it will then take them to the next line until they either win or lose 
 //extra: add a win/lose screen
@@ -8,15 +8,22 @@
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Random;
+import java.util.Set;
+
 import javax.swing.*;
 
 public class Wordle {
     public static void main(String[] args) {
         
     }
-
+    WordList list = new WordList();
+    Set<String> allValidWords = list.getSet();
+    String[] words = list.getWords();
+    int row = 0;
     int boardHeight = 1000;
     int boardWidth = 800;
+    String answerWord = getRandomWord();
 
     JFrame frame = new JFrame("Wordle");
     JPanel boardPanel = new JPanel();
@@ -39,6 +46,7 @@ public class Wordle {
         textField.setFont(new Font("Times New Roman", Font.PLAIN, 60));
         textField.setBackground(Color.gray);
         textField.setForeground(Color.white);
+        textField.setDocument(new JTextFieldLimit(5));
         button.setForeground(Color.DARK_GRAY);
         button.setFont(new Font("Times New Roman", Font.BOLD, 80));
         button.setText("ENTER");
@@ -46,8 +54,27 @@ public class Wordle {
         bottomPanel.add(textField);
         bottomPanel.add(button);
         frame.add(bottomPanel, BorderLayout.SOUTH); 
+        
+
+        button.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String word = textField.getText();
+                
+                if(allValidWords.contains(word)) {
+                    String[] wordArr = word.split("");
+                    for(int i = 0; i < 5; i++) {
+                        labels[row][i].setText(wordArr[i]);
+                        textField.setText("");
+                    }
+                    row++;
+                }
+                
+                
+            }
+        });
 
         boardPanel.setLayout(new GridLayout(6, 5, 25, 25));
+        boardPanel.setBorder(BorderFactory.createEmptyBorder(25, 25, 25, 25));
         boardPanel.setBackground(Color.darkGray);
         frame.add(boardPanel);
 
@@ -55,12 +82,14 @@ public class Wordle {
             for(int c = 0; c < 5; c++) {
                 JLabel label = new JLabel();
                 label.setOpaque(true); 
-                label.setSize(50, 50);
+                //label.setSize(20, 20);
 
                 label.setBackground(Color.gray);
                 label.setForeground(Color.white);
                 label.setFont(new Font("Times New Roman", Font.PLAIN, 80));
-                label.setText("test");
+                label.setHorizontalAlignment(SwingConstants.CENTER);
+                label.setVerticalAlignment(SwingConstants.CENTER);
+                // label.setText("test");
 
                 labels[r][c] = label;
                 boardPanel.add(label);
@@ -68,6 +97,14 @@ public class Wordle {
         }
           
         frame.setVisible(true);
+    }
+
+    public String getRandomWord() {
+        Random random = new Random();
+        int length = words.length;
+        int num = random.nextInt(length);
+        System.out.println(words[num]);
+        return words[num];
     }
 
 }
