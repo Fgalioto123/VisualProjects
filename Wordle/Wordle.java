@@ -9,6 +9,7 @@
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Arrays;
 import java.util.Random;
 import java.util.Set;
 
@@ -66,6 +67,7 @@ public class Wordle {
                     for(int i = 0; i < 5; i++) {
                         labels[row][i].setText(wordArr[i]);
                         textField.setText("");
+                        setColor(i, wordArr[i], labels[row][i]);
                     }
                     row++;
                 }
@@ -106,6 +108,18 @@ public class Wordle {
         int num = random.nextInt(length);
         System.out.println(words[num]);
         return words[num];
+    }
+
+    public void setColor(int pos, String letter, JLabel label) {
+        String[] correctWordArr = answerWord.split("");
+        if(correctWordArr[pos].equals(letter)) {
+            label.setBackground(Color.green);
+            return;
+        } else if(Arrays.asList(correctWordArr).contains(letter)) {
+            label.setBackground(Color.yellow);
+            label.setForeground(Color.gray);
+        }
+
     }
 
 }
