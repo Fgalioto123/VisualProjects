@@ -8,6 +8,14 @@ public class PongGame extends JPanel {
         
     }
 
+    private Ball gameBall;
+
+    public PongGame(){
+
+        gameBall = new Ball(300, 200, 3, 3, 3, Color.YELLOW, 10);
+
+    }
+
     
     static final int WINDOW_WIDTH = 900, WINDOW_HEIGHT = 500;
 
